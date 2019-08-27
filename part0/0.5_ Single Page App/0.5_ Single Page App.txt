@@ -1,10 +1,12 @@
 browser->server: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa
-server-->browser: HTML-code
+
 note over server:
 The form returned by server has no action or method 
 attributes to define how and where to send the input data.
 Form only has attribute id="notes_from"
 end note
+
+server-->browser: HTML-code
 
 browser->server: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
 server-->browser: main.css

@@ -1,0 +1,42 @@
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+note over server:
+POST request contains new note & date
+that has been typed by user.
+The form just contain attribute: id="notes_form"
+end note
+
+note over server:
+Content-type: application/json, browser tell the 
+server that the data represented by JSON format
+end note
+
+note over server:
+document.getElementById('notes_form'):
+fetch from-element from the page and register an event handler.
+e.preventDefault:
+prevent the default handling of form submit so the redirect won't happen
+end note
+
+note over server:
+notes.push(note):
+creates a new note and adds it to the notes list.
+end note
+
+note over server:
+Server rerenders the note list on the page 
+and sends the new note to the server.
+end note
+
+note over server:
+sendToServer:
+Determines that data sent with HTTP POST request and 
+the data type is to be JSON. 
+The data type is determined with a Content-type header. 
+Then the data is sent as JSON-string.
+end note
+
+server-->browser: Status Code 201, {"message":"note created"}
+
+note over browser:
+The new note added to the list
+end note
