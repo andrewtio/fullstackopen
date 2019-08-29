@@ -10,9 +10,12 @@ const Title = props => {
 }
 
 const Statistic = props => (
-  <>
-    <p>{props.text} {props.value}</p>
-  </>
+  <tbody>
+    <tr>
+      <td>{props.text} </td>
+      <td> {props.value}</td>
+    </tr>
+  </tbody>
 )
 
 const Statistics = ({ good, bad, neutral }) => {
@@ -37,14 +40,14 @@ const Statistics = ({ good, bad, neutral }) => {
   }
 
   return (
-    <>
+    <table>
       <Statistic text={"Good"} value={good} />
       <Statistic text={"Neutral"} value={neutral} />
       <Statistic text={"Bad"} value={bad} />
       <Statistic text={"All"} value={sum()} />
       <Statistic text={"Average"} value={average()} />
       <Statistic text={"Positive"} value={positivePercent()} />
-    </>
+    </table>
   )
 }
 
