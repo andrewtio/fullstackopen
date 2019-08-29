@@ -10,6 +10,12 @@ const anecdotes = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
+const Anecdotes = ({ anecdotes, selected }) => (
+  <div>
+    {anecdotes[selected]}
+  </div>
+)
+
 const Button = ({ onClick, text }) => (
   <button onClick={onClick}>
     {text}
@@ -27,9 +33,7 @@ const App = (props) => {
 
   return (
     <>
-      <div>
-        {props.anecdotes[selected]}
-      </div>
+      <Anecdotes anecdotes={props.anecdotes} selected={selected} />
       <Button onClick={handleOnClick} text={"Next Anecdote"} />
     </>
   )
