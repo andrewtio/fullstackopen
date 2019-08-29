@@ -41,6 +41,18 @@ const App = () => {
     setBad(bad + 1)
   }
 
+  const sum = () => (
+    good + neutral + bad
+  )
+
+  const average = () => (
+    (good - bad) / (good + neutral + bad)
+  )
+
+  const positivePercent = () => (
+    ((good / (good + neutral + bad)) * 100) + " %"
+  )
+
   return (
     <>
       <Title text={"Give Feedback"} />
@@ -52,6 +64,9 @@ const App = () => {
       <Display text={"Good"} value={good} />
       <Display text={"Neutral"} value={neutral} />
       <Display text={"Bad"} value={bad} />
+      <Display text={"All"} value={sum()} />
+      <Display text={"Average"} value={average()} />
+      <Display text={"Positive"} value={positivePercent()} />
     </>
   )
 }
