@@ -16,6 +16,14 @@ const Button = ({ onClick, text }) => (
 )
 
 const Statistics = props => {
+  if (props.value === 0) {
+    return (
+      <>
+        <p>No Feedback Given</p>
+      </>
+    )
+  }
+
   return (
     <>
       <p>{props.text} {props.value}</p>
