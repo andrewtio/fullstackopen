@@ -1,8 +1,9 @@
 import React from 'react'
 import Course from './components/Course'
+import Title from './components/Title'
 
 const App = ({ course }) => {
-  console.log("course", course)
+  // console.log("course", course)
   const courses = () =>
     course.map(course =>
       <Course
@@ -10,9 +11,10 @@ const App = ({ course }) => {
         course={course}
       />
     );
-  console.log("courses map", courses())
+  // console.log("courses map", courses())
   return (
     <>
+      <Title title={"Web Development Curriculum"} />
       {courses()}
     </>
   )

@@ -2,7 +2,7 @@ import React from 'react'
 import Part from './Part'
 
 const Content = ({ parts }) => {
-  console.log("parts content", parts)
+  // console.log("parts content", parts)
   const rows = () =>
     parts.map((part, i) =>
       <Part

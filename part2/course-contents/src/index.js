@@ -47,8 +47,8 @@ const courses = [
   }
 ]
 
-const results = courses.map(course => course.parts);
-console.log("course.parts", results)
+// const results = courses.map(course => course.parts);
+// console.log("course.parts", results)
 
 
 ReactDOM.render(<App course={courses} />, document.getElementById('root'))
