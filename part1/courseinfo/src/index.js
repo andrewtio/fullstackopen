@@ -18,17 +18,14 @@ const Part = (props) => {
   )
 }
 
-const Content = (props) => {
-  console.log("Content Props", props)
-
-  return (
-    <>
-      <Part part={props.parts[0].name} exercises={props.parts[0].exercises} />
-      <Part part={props.parts[1].name} exercises={props.parts[1].exercises} />
-      <Part part={props.parts[2].name} exercises={props.parts[2].exercises} />
-    </>
-  )
-}
+const Content = (props) => (
+  // console.log("Content Props", props)
+  <>
+    <Part part={props.parts[0].name} exercises={props.parts[0].exercises} />
+    <Part part={props.parts[1].name} exercises={props.parts[1].exercises} />
+    <Part part={props.parts[2].name} exercises={props.parts[2].exercises} />
+  </>
+)
 
 const Total = (props) => {
   return (
