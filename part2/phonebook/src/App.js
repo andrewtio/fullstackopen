@@ -15,28 +15,37 @@ const App = () => {
     // const nameArray =
     //   newName
 
-    console.log("previous persons", persons);
+    // console.log("previous persons", persons);
     //setPersons(persons.push({ name: newName }));
+    if (persons.some(e => e.name === newName)) {
+      alert(`${newName} is already added to phonebook.`);
+    }
+
     setPersons(persons => [...persons, { name: newName }]);
     setNewName('');
-    console.log("current persons", persons);
+    // console.log("current persons", persons);
   }
+
+  console.log("Persons", persons)
+  console.log("Includes", persons.includes('Arto Hellas'))
 
   const handleNameChange = event => {
     console.log("event.target.value", event.target.value)
     setNewName(event.target.value)
   }
-  console.log("persons after add", persons)
+  // console.log("persons after add", persons)
 
   const rows = () =>
     persons.map((name, i) =>
       <Name
         key={i}
         name={name}
+        persons={persons}
       />
     )
 
-  console.log("rows", rows())
+
+  console.log("rows", rows().includes('Arto Hellas'))
 
   return (
     <>
