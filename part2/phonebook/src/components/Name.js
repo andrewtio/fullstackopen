@@ -1,10 +1,10 @@
 import React from "react";
 
-const Name = ({ name, persons }) => {
-  console.log("name.name", name.name.includes(persons))
+const Name = ({ name }) => {
+  // console.log("name.name", name.name.includes(persons))
   return (
     <div>
-      {name.name}
+      {name.name} {name.number}
     </div>
   )
 }
