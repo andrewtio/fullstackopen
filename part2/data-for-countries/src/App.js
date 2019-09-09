@@ -3,6 +3,7 @@ import axios from 'axios'
 import Country from './components/Country'
 import Countries from './components/Countries'
 import Filter from './components/Filter'
+import CountryDetailData from './components/CountryDetailData'
 
 const App = () => {
   const [countries, setCountries] = useState([
@@ -19,7 +20,7 @@ const App = () => {
         // console.log("response.data", response.data)
         setCountries(response.data)
       })
-  })
+  }, [])
   // console.log("countries", countries)
 
   const countriesToShow = countries.filter(country => {
@@ -37,6 +38,13 @@ const App = () => {
       />
     )
 
+  const details = () =>
+    countriesToShow.map((name, i) =>
+      <CountryDetailData
+        key={i}
+        name={name}
+      />
+    )
   // console.log("Rows", rows().length)
 
   return (
@@ -49,6 +57,7 @@ const App = () => {
 
       <Countries
         rows={rows}
+        details={details}
         text={"Too Many Matches, specify another filter"} />
     </>
   )
