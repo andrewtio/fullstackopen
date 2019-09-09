@@ -46,7 +46,7 @@ const App = () => {
       />
     )
 
-  console.log("rows", rows().includes('Arto Hellas'))
+  console.log("rows", rows())
 
   const addName = event => {
     event.preventDefault()
