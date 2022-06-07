@@ -1,66 +1,40 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import Country from './components/Country'
-import Countries from './components/Countries'
-import Filter from './components/Filter'
-import CountryDetailData from './components/CountryDetailData'
+import { useEffect, useState } from "react";
+import Country from "./components/Country";
+import axios from "axios";
 
 const App = () => {
-  const [countries, setCountries] = useState([
-
-  ])
-  const [filter, setFilter] = useState('')
+  const [countries, setCountries] = useState([]);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    console.log("Effect")
-    axios
-      .get("https://restcountries.eu/rest/v2/all")
-      .then(response => {
-        // console.log("Promise Fullfiled")
-        // console.log("response.data", response.data)
-        setCountries(response.data)
-      })
-  }, [])
-  // console.log("countries", countries)
+    console.log("effect");
+    axios.get("https://restcountries.com/v2/all").then((response) => {
+      console.log("promise fulfilled");
+      console.log(response, "response country");
+      setCountries(response.data);
+    });
+  }, []);
 
-  const countriesToShow = countries.filter(country => {
-    const filterUpperCase = filter.toUpperCase()
-    const countryUpperCase = country.name.toUpperCase()
-    return countryUpperCase.includes(filterUpperCase)
-  })
-  // console.log("countriesToShow", countriesToShow)
+  const handleFilterChange = (event) => {
+    console.log(event.target.value);
+    setFilter(event.target.value);
+    console.log(filter, "Filter");
+  };
 
-  const rows = () =>
-    countriesToShow.map((name, i) =>
-      <Country
-        key={i}
-        name={name}
-      />
-    )
-
-  const details = () =>
-    countriesToShow.map((name, i) =>
-      <CountryDetailData
-        key={i}
-        name={name}
-      />
-    )
-  // console.log("Rows", rows().length)
+  console.log("render", countries.length, "countries");
 
   return (
-    <>
-      <Filter
-        filter={filter}
-        setFilter={setFilter}
-        text={"Find Countries"}
-      />
+    <div>
+      <h2>Countries</h2>
+      <h3>
+        Find Countries: <input value={filter} onChange={handleFilterChange} />{" "}
+      </h3>
 
-      <Countries
-        rows={rows}
-        details={details}
-        text={"Too Many Matches, specify another filter"} />
-    </>
-  )
-}
+      <p>
+        <Country key={countries.cca2} filter={filter} countries={countries} />
+      </p>
+    </div>
+  );
+};
 
-export default App
+export default App;

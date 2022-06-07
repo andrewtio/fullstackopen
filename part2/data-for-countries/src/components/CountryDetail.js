@@ -1,19 +1,11 @@
-import React from 'react'
+import React from "react";
 
 const CountryDetail = ({ rows, details }) => {
-  console.log("CountryDetail", details())
+  console.log("CountryDetail", details());
   if (rows().length === 1) {
-    return (
-      <div>
-        {details()}
-      </div>
-    )
+    return <div>{details()}</div>;
   }
-  return (
-    <>
+  return <></>;
+};
 
-    </>
-  )
-}
-
-export default CountryDetail
+export default CountryDetail;

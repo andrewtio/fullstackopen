@@ -1,13 +1,9 @@
-import React from 'react'
-import CountryDetail from './CountryDetail'
+import React from "react";
+import CountryDetail from "./CountryDetail";
 
 const Countries = ({ rows, text, details }) => {
   if (rows().length > 10) {
-    return (
-      <div>
-        {text}
-      </div>
-    )
+    return <div>{text}</div>;
   }
   // console.log("length", rows().length)
 
@@ -16,7 +12,7 @@ const Countries = ({ rows, text, details }) => {
       {rows()}
       <CountryDetail rows={rows} details={details} />
     </>
-  )
-}
+  );
+};
 
-export default Countries
+export default Countries;
