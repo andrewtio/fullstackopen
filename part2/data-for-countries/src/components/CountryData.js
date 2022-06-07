@@ -24,17 +24,11 @@ const CountryData = ({ country }) => {
 
   console.log("render", temperature, "temp");
   console.log("render", wind, "wind");
-  // console.log("render", weathers.temp, "weathers temp");
-
-  // const languages = () =>
-  //   country.languages.map((name, i) => <CountryLanguage key={i} name={name} />);
   return (
     <div>
       <h1>{country.name}</h1>
       <p>Capital: {country.capital}</p>
       <p>Area: {country.area}</p>
-      {/* <p>Languages: {languages()}</p> */}
-      {/* <li>{country.languages}</li> */}
       <div>
         Languages:{" "}
         {country.languages.map((country) => (

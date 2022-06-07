@@ -8,7 +8,6 @@ const Button = ({ handleClick, text }) => (
 const NameCountry = ({ country }) => {
   const [show, setShow] = useState(false);
   const countryDetailToShow = show ? <CountryData country={country} /> : "";
-  // console.log("name.name", name.name.includes(persons))
   return (
     <li>
       {country.name}{" "}
