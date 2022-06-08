@@ -4,6 +4,7 @@ import Name from "./components/Name";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import personService from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -19,10 +20,15 @@ const App = () => {
 
   useEffect(() => {
     console.log("Effect");
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("Promise Fullfiled");
-      console.log("Response.data", response.data);
-      setPersons(response.data);
+    // Before update using axios direct
+    // axios.get("http://localhost:3001/persons").then((response) => {
+    //   console.log("Promise Fullfiled");
+    //   console.log("Response.data", response.data);
+    //   setPersons(response.data);
+    // });
+
+    personService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
     });
   });
 
@@ -60,13 +66,20 @@ const App = () => {
       id: persons.length + 1,
     };
 
-    axios
-      .post("http://localhost:3001/persons", personObject)
-      .then((response) => {
-        setPersons(persons.concat(response.data));
-        setNewNumber("");
-        setNewName("");
-      });
+    // Before update using direct axios
+    // axios
+    //   .post("http://localhost:3001/persons", personObject)
+    //   .then((response) => {
+    //     setPersons(persons.concat(response.data));
+    //     setNewNumber("");
+    //     setNewName("");
+    //   });
+
+    personService.create(personObject).then((returnedPerson) => {
+      setPersons(persons.concat(returnedPerson));
+      setNewName("");
+      setNewNumber("");
+    });
   };
 
   const handleNameChange = (event) => {
