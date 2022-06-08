@@ -1,12 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Persons = ({ rows }) => {
+  return <>{rows()}</>;
+};
 
-  return (
-    <>
-      {rows()}
-    </>
-  )
-}
-
-export default Persons
+export default Persons;
