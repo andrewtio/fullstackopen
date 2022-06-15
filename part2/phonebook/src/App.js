@@ -48,22 +48,47 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault();
+    const person = persons.find((n) => n.name === newName);
+    const changedPerson = { ...person, number: newNumber };
 
-    // console.log("previous persons", persons);
+    // console.log("goobang", personId.id);
+    // console.log("changedPerson", changedPerson);
     //setPersons(persons.push({ name: newName }));
     if (persons.some((e) => e.name === newName)) {
-      alert(`${newName} is already added to phonebook.`);
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook, replace the old number with a new one?`
+        )
+      ) {
+        personService
+          .update(person.id, changedPerson)
+          .then((returnedPerson) => {
+            setPersons(
+              persons.map((e) => (e.id !== person.id ? e : returnedPerson))
+            );
+          });
+        setNewName("");
+        setNewNumber("");
+      } else {
+        alert("do nothing");
+      }
+    } else {
+      const personObject = {
+        name: newName,
+        number: newNumber,
+        id: persons.length + 1,
+      };
+
+      personService.create(personObject).then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+        setNewName("");
+        setNewNumber("");
+      });
     }
 
-    if (persons.some((e) => e.number === newNumber)) {
-      alert(`${newNumber} is already added to phonebook`);
-    }
-
-    const personObject = {
-      name: newName,
-      number: newNumber,
-      id: persons.length + 1,
-    };
+    // if (persons.some((e) => e.number === newNumber)) {
+    //   alert(`${newNumber} is already added to phonebook`);
+    // }
 
     // Before update using direct axios
     // axios
@@ -73,12 +98,6 @@ const App = () => {
     //     setNewNumber("");
     //     setNewName("");
     //   });
-
-    personService.create(personObject).then((returnedPerson) => {
-      setPersons(persons.concat(returnedPerson));
-      setNewName("");
-      setNewNumber("");
-    });
   };
 
   const handleNameChange = (event) => {

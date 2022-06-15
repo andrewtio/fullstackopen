@@ -14,7 +14,7 @@ const Name = ({ name }) => {
         handleClick={() => {
           if (window.confirm("Do you really want to delete?")) {
             personService.deletePerson(name.id).then(() => {
-              alert(`the '${name.name}' was already deleted`);
+              alert(`Person '${name.name}' was already deleted`);
             });
           }
         }}
