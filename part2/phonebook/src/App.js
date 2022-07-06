@@ -32,7 +32,7 @@ const App = () => {
     personService.getAll().then((initialPersons) => {
       setPersons(initialPersons);
     });
-  });
+  }, []);
 
   const personsToShow = persons.filter((person) => {
     const filterUpperCase = filter.toUpperCase();
@@ -40,14 +40,14 @@ const App = () => {
     return personUpperCase.includes(filterUpperCase);
   });
 
-  console.log("PersonsToShow", personsToShow);
-  console.log("Persons", persons);
-  console.log("Includes", persons.includes("Arto Hellas"));
+  // console.log("PersonsToShow", personsToShow);
+  // console.log("Persons", persons);
+  // console.log("Includes", persons.includes("Arto Hellas"));
 
   const rows = () =>
     personsToShow.map((name, i) => <Name key={i} name={name} />);
 
-  console.log("rows", rows());
+  // console.log("rows", rows());
 
   const addName = (event) => {
     event.preventDefault();
