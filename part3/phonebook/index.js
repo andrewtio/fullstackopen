@@ -60,10 +60,15 @@ app.get("/api/persons/:id", (request, response) => {
 app.post("/api/persons", (request, response) => {
   const body = request.body;
 
-  console.log("body", !body.content);
-  if (!body.content) {
+  if (!body.content.name || !body.content.number) {
     return response.status(400).json({
-      error: "content-missing",
+      error: "The name or number is missing",
+    });
+  }
+
+  if (persons.some((e) => e.name === body.content.name)) {
+    return response.status(400).json({
+      error: "The name already exists in the phonebook",
     });
   }
 
