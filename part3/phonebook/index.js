@@ -26,6 +26,7 @@ let persons = [
   },
 ];
 
+// GET
 app.get("/info", (request, response) => {
   response.send(
     `Phonebook has info of ${persons.length} people <br><br> ${Date()}`
@@ -47,6 +48,34 @@ app.get("/api/persons/:id", (request, response) => {
   } else {
     response.status(404).end();
   }
+});
+
+// DELETE
+
+app.delete("/api/persons/:id", (request, response) => {
+  const id = Number(request.params.id);
+  persons = persons.filter((person) => {
+    return person.id !== id;
+  });
+  console.log("persons", persons);
+  response.status(204).end();
+});
+
+app.delete("/api/notes/:id", (request, response) => {
+  const id = Number(request.params.id);
+  notes = notes.filter((note) => {
+    console.log(
+      "note delete",
+      note.id,
+      typeof note.id,
+      id,
+      typeof id,
+      note.id === id
+    );
+    return note.id !== id;
+  });
+  console.log("notes", notes);
+  response.status(204).end();
 });
 
 const PORT = 3001;
