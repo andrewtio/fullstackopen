@@ -27,7 +27,7 @@ let persons = [
 
 app.use(express.json());
 
-app.use(morgan("combined"));
+app.use(morgan("tiny"));
 
 const generateRandomId = () => {
   return Math.floor(Math.random() * 100000) + 1;
