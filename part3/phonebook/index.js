@@ -63,13 +63,12 @@ app.post("/api/persons", (request, response) => {
 });
 
 // DELETE
-app.delete("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  persons = persons.filter((person) => {
-    return person.id !== id;
-  });
-  console.log("persons", persons);
-  response.status(204).end();
+app.delete("/api/persons/:id", (request, response, next) => {
+  Person.findByIdAndRemove(request.params.id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
 const unknownEndpoint = (request, response) => {
