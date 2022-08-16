@@ -92,15 +92,24 @@ const App = () => {
         id: persons.length + 1,
       };
 
-      personService.create(personObject).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson));
-        setNotificationMessage(`Added '${newName}'`);
-        setTimeout(() => {
-          setNotificationMessage(null);
-        }, 5000);
-        setNewName("");
-        setNewNumber("");
-      });
+      personService
+        .create(personObject)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setNotificationMessage(`Added '${newName}'`);
+          setTimeout(() => {
+            setNotificationMessage(null);
+          }, 5000);
+          setNewName("");
+          setNewNumber("");
+        })
+        .catch((error) => {
+          console.log(error.response.data.error);
+          setErrorMessage(error.response.data.error);
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 5000);
+        });
     }
   };
 
