@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 require("dotenv").config();
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
@@ -8,7 +9,7 @@ console.log("Connecting to", url);
 
 mongoose
   .connect(url)
-  .then((result) => {
+  .then(() => {
     console.log("Connected to MongoDB");
   })
   .catch((error) => {

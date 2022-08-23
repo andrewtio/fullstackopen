@@ -9,7 +9,7 @@ app.use(express.static("build"));
 
 app.use(express.json());
 
-morgan.token("content", function (req, res) {
+morgan.token("content", function (req) {
   return JSON.stringify(req.body);
 });
 
@@ -19,17 +19,7 @@ app.use(
   )
 );
 
-const generateRandomId = () => {
-  return Math.floor(Math.random() * 100000) + 1;
-};
-
 // GET
-app.get("/info", (request, response) => {
-  response.send(
-    `Phonebook has info of ${persons.length} people <br><br> ${Date()}`
-  );
-});
-
 app.get("/api/persons", (request, response) => {
   Person.find({}).then((persons) => {
     response.json(persons);
@@ -80,12 +70,7 @@ app.put("/api/persons/:id", (request, response, next) => {
     number: body.number,
   };
 
-  Person.findByIdAndUpdate(
-    request.params.id,
-    person,
-    { new: true },
-    { runValidators: true }
-  )
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
     .then((updatedPerson) => {
       response.json(updatedPerson);
     })
@@ -95,7 +80,7 @@ app.put("/api/persons/:id", (request, response, next) => {
 // DELETE
 app.delete("/api/persons/:id", (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-    .then((result) => {
+    .then(() => {
       response.status(204).end();
     })
     .catch((error) => next(error));
@@ -121,6 +106,7 @@ const errorHandler = (error, request, response, next) => {
 
 app.use(errorHandler);
 
+// eslint-disable-next-line no-undef
 const PORT = process.env.PORT;
 app.listen(PORT);
 console.log(`Server running on port ${PORT}`);
