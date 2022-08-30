@@ -8,21 +8,21 @@ const dummy = (blogs) => {
   return blogs.length === 0 ? 1 : blogs.reduce(reducer, 0) / blogs.length;
 };
 
-const totalLikes = (likes) => {
-  console.log("likes", likes);
-  const result = likes.map((likes) => {
+const totalLikes = (blogs) => {
+  console.log("blogs", blogs);
+  const likes = blogs.map((likes) => {
     return likes.likes;
   });
-  console.log("result", result);
+  console.log("likes", likes);
 
-  const reducer = (sum, result) => {
+  const reducer = (sum, likes) => {
     console.log("sum", sum);
-    console.log("result", result);
-    return sum + result;
+    console.log("result", likes);
+    return sum + likes;
   };
 
-  console.log("reducer", result.reduce(reducer, 0));
-  return likes.length === 0 ? 0 : result.reduce(reducer, 0);
+  console.log("reducer", likes.reduce(reducer, 0));
+  return blogs.length === 0 ? 0 : likes.reduce(reducer, 0);
 };
 
 module.exports = {
