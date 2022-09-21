@@ -49,6 +49,29 @@ test("expect id to be defined", async () => {
   expect(response.body[1].id).toBeDefined();
 });
 
+test("a valid blog post can be added", async () => {
+  const newBlog = {
+    title: "ZenFein",
+    author: "Andrewtio",
+    url: "www.zenfein.com",
+    likes: 5,
+    id: "630cbb6b7fa33829d343e1e6",
+  };
+
+  await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+
+  const blogsAtEnd = await helper.blogsInDb();
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+
+  const titles = blogsAtEnd.map((r) => r.title);
+
+  expect(titles).toContain("ZenFein");
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
