@@ -72,6 +72,25 @@ test("a valid blog post can be added", async () => {
   expect(titles).toContain("ZenFein");
 });
 
+test("if likes property is missing from the request, should default the value to 0", async () => {
+  const newBlog = {
+    title: "ZenFein",
+    author: "Andrewtio",
+    url: "www.zenfein.com",
+    id: "630cbb6b7fa33829d343e1e6",
+  };
+
+  await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+
+  const blogsAtEnd = await helper.blogsInDb();
+
+  expect(blogsAtEnd[2].likes).toBe(0);
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
