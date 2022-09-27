@@ -105,6 +105,31 @@ describe("addition of a new blog", () => {
   });
 });
 
+describe("updating a blog", () => {
+  test("a blog should can be updated", async () => {
+    const blogsAtStart = await helper.blogsInDb();
+
+    const updatedBlog = {
+      title: "DithaS",
+      author: "KanzleiS",
+      url: "www.ditha.comS",
+      likes: 3,
+    };
+
+    await api
+      .put(`/api/blogs/${blogsAtStart[1].id}`)
+      .send(updatedBlog)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd[1].title).toBe("DithaS");
+    expect(blogsAtEnd[1].author).toBe("KanzleiS");
+    expect(blogsAtEnd[1].url).toBe("www.ditha.comS");
+    expect(blogsAtEnd[1].likes).toBe(3);
+  });
+});
+
 describe("deletion of a blog", () => {
   test("a blog should can be deleted", async () => {
     const blogsAtStart = await helper.blogsInDb();
