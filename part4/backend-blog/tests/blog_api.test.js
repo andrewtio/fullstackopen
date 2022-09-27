@@ -91,6 +91,36 @@ test("if likes property is missing from the request, should default the value to
   expect(blogsAtEnd[2].likes).toBe(0);
 });
 
+test("if title is missing should return respond 400 bad request", async () => {
+  const newBlog = {
+    author: "Andrewtio",
+    url: "www.zenfein.com",
+    likes: 5,
+    id: "630cbb6b7fa33829d343e1e6",
+  };
+
+  await api.post("/api/blogs").send(newBlog).expect(400);
+
+  const blogsAtEnd = await helper.blogsInDb();
+
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
+});
+
+test("if url is missing should return respond 400 bad request", async () => {
+  const newBlog = {
+    title: "ZenFein",
+    author: "Andrewtio",
+    likes: 5,
+    id: "630cbb6b7fa33829d343e1e6",
+  };
+
+  await api.post("/api/blogs").send(newBlog).expect(400);
+
+  const blogsAtEnd = await helper.blogsInDb();
+
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
