@@ -5,6 +5,10 @@ const blogSchema = new mongoose.Schema({
   author: String,
   url: String,
   likes: Number,
+  blog: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 // Change _id(Object) to id(String)
