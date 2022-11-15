@@ -62,8 +62,26 @@ blogsRouter.put("/:id", async (request, response) => {
 
 // DELETE
 blogsRouter.delete("/:id", async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id);
-  response.status(204).end();
+  const { id } = request.params;
+  const decodedToken = jwt.verify(request.token, process.env.SECRET);
+
+  if (!request.token || !decodedToken.id) {
+    return response.status(401).json({ error: "token missing or invalid" });
+  }
+
+  const user = await User.findById(decodedToken.id);
+  const blog = await Blog.findById(id).populate("user");
+
+  if (user._id.toString() !== blog.user.id.toString()) {
+    return response.status(401).json({
+      error: "You are not authorized to delete this blog",
+      user: user._id,
+      blogUser: blog.user.id,
+    });
+  }
+
+  await Blog.findByIdAndRemove(id);
+  response.status(204).end("deleted");
 });
 
 module.exports = blogsRouter;
