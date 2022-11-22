@@ -5,6 +5,7 @@ const User = require("../models/user");
 const helper = require("./test_helper");
 const app = require("../app");
 const api = supertest(app);
+jest.setTimeout(10000);
 
 describe("when there is initially one user in db", () => {
   beforeEach(async () => {
