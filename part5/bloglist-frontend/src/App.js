@@ -49,6 +49,18 @@ const App = () => {
     console.log("Logging in with", username, password);
   };
 
+  const handleLogout = async () => {
+    try {
+      window.localStorage.clear();
+      window.location.reload();
+    } catch (exception) {
+      setErrorMessage("Cannot Logout");
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+    }
+  };
+
   const loginForm = () => (
     <div>
       <h2>Log in into application</h2>
@@ -76,6 +88,16 @@ const App = () => {
     </div>
   );
 
+  const logoutForm = () => (
+    <button
+      onClick={() => {
+        handleLogout();
+      }}
+    >
+      Logout
+    </button>
+  );
+
   const blogForm = () => <div>Blog Form</div>;
 
   if (user === null) {
@@ -91,7 +113,9 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <p>{user.name} logged-in </p>
+      <p>
+        {user.name} logged-in {logoutForm()}
+      </p>
       {blogForm()}
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
