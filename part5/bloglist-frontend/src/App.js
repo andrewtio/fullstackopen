@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import Blog from "./components/Blog";
 import Notification from "./components/Notification";
+import ErrorMessage from "./components/ErrorMessage";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import "./index.css";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+  const [message, setMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
@@ -39,9 +42,15 @@ const App = () => {
 
     blogService.create(blogObject).then((returnedBlog) => {
       setBlogs(blogs.concat(returnedBlog));
+      setMessage(
+        `A new blog ${returnedBlog.title} by ${returnedBlog.author} has been added`
+      );
       setNewAuthor("");
       setNewTitle("");
       setNewUrl("");
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
     });
   };
 
@@ -73,9 +82,9 @@ const App = () => {
       window.localStorage.clear();
       window.location.reload();
     } catch (exception) {
-      setErrorMessage("Cannot Logout");
+      setMessage("Cannot Logout");
       setTimeout(() => {
-        setErrorMessage(null);
+        setMessage(null);
       }, 5000);
     }
   };
@@ -150,7 +159,7 @@ const App = () => {
     return (
       <div>
         <h1>Blogs</h1>
-        <Notification message={errorMessage} />
+        <ErrorMessage message={errorMessage} />
         {loginForm()}
       </div>
     );
@@ -159,6 +168,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification message={message} />
       <p>
         {user.name} logged-in {logoutForm()}
       </p>
