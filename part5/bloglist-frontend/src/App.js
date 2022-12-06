@@ -10,6 +10,9 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [newTitle, setNewTitle] = useState("");
+  const [newAuthor, setNewAuthor] = useState("");
+  const [newUrl, setNewUrl] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -25,6 +28,22 @@ const App = () => {
       blogService.setToken(user.token);
     }
   }, []);
+
+  const addBlog = (event) => {
+    event.preventDefault();
+    const blogObject = {
+      title: newTitle,
+      author: newAuthor,
+      url: newUrl,
+    };
+
+    blogService.create(blogObject).then((returnedBlog) => {
+      setBlogs(blogs.concat(returnedBlog));
+      setNewAuthor("");
+      setNewTitle("");
+      setNewUrl("");
+    });
+  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -98,7 +117,34 @@ const App = () => {
     </button>
   );
 
-  const blogForm = () => <div>Blog Form</div>;
+  const handleTitleChange = (event) => {
+    setNewTitle(event.target.value);
+  };
+
+  const handleAuthorChange = (event) => {
+    setNewAuthor(event.target.value);
+  };
+
+  const handleUrlChange = (event) => {
+    setNewUrl(event.target.value);
+  };
+
+  const blogForm = () => (
+    <div>
+      <form onSubmit={addBlog}>
+        <div>
+          Title: <input value={newTitle} onChange={handleTitleChange} />
+        </div>
+        <div>
+          Author: <input value={newAuthor} onChange={handleAuthorChange} />
+        </div>
+        <div>
+          Url: <input value={newUrl} onChange={handleUrlChange} />
+        </div>
+        <button type="submit">Create</button>
+      </form>
+    </div>
+  );
 
   if (user === null) {
     return (
