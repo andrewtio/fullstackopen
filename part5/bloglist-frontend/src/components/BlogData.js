@@ -1,18 +1,7 @@
 import React from "react";
 
 const BlogData = ({ blog, addLike }) => {
-  const addBlogLike = (event) => {
-    event.preventDefault();
-    addLike({
-      user: blog.user,
-      like: blog.like + 1,
-      author: blog.author,
-      title: blog.title,
-      url: blog.url,
-    });
-  };
-
-  const Button = ({ text }) => <button onClick={addBlogLike}>{text}</button>;
+  const Button = ({ text }) => <button onClick={addLike}>{text}</button>;
   return (
     <div>
       <div>Url: {blog.url}</div>
