@@ -49,16 +49,19 @@ blogsRouter.post("/", async (request, response) => {
 });
 
 // PUT
-blogsRouter.put("/:id", async (request, response) => {
+blogsRouter.put("/:id", async (request, response, next) => {
   const { user, title, author, url, likes } = request.body;
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, {
+  Blog.findByIdAndUpdate(request.params.id, {
     user,
     title,
     author,
     url,
     likes,
-  });
-  response.json(updatedBlog);
+  })
+    .then((updatedBlog) => {
+      response.json(updatedBlog);
+    })
+    .catch((error) => next(error));
 });
 
 // DELETE
