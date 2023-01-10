@@ -5,9 +5,13 @@ const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, addLike }) => {
   const [show, setShow] = useState(false);
-  const blogDetailToShow = show ? <BlogData blog={blog} /> : "";
+  const blogDetailToShow = show ? (
+    <BlogData blog={blog} addLike={addLike} />
+  ) : (
+    ""
+  );
 
   return (
     <div className="blog">

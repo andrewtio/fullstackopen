@@ -50,8 +50,9 @@ blogsRouter.post("/", async (request, response) => {
 
 // PUT
 blogsRouter.put("/:id", async (request, response) => {
-  const { title, author, url, likes } = request.body;
+  const { user, title, author, url, likes } = request.body;
   const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, {
+    user,
     title,
     author,
     url,
