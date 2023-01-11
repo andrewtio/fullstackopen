@@ -50,7 +50,7 @@ const App = () => {
     console.log("id", id);
     const blog = blogs.find((n) => n.id === id);
     console.log("blog", blog);
-    const changedBlog = { blog, likes: blog.likes + 1 };
+    const changedBlog = { ...blog, likes: blog.likes + 1 };
     console.log("changedBlog", changedBlog);
 
     blogService.update(id, changedBlog).then((returnedBlog) => {
@@ -62,7 +62,7 @@ const App = () => {
       setTimeout(() => {
         setMessage(null);
       }, 5000);
-      window.location.reload();
+      // window.location.reload();
     });
   };
 
