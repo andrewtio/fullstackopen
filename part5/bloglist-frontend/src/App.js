@@ -32,6 +32,10 @@ const App = () => {
     }
   }, []);
 
+  const blogsSortedByLikes = blogs.sort(function (a, b) {
+    return b.likes - a.likes;
+  });
+
   const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility();
     blogService.create(blogObject).then((returnedBlog) => {
@@ -158,7 +162,7 @@ const App = () => {
       <Togglable buttonLabel="New Blog" ref={blogFormRef}>
         <BlogForm createBlog={addBlog} />
       </Togglable>
-      {blogs.map((blog) => (
+      {blogsSortedByLikes.map((blog) => (
         <Blog key={blog.id} blog={blog} addLike={() => addLike(blog.id)} />
       ))}
     </div>
