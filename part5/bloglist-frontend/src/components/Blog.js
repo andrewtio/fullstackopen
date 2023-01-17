@@ -1,5 +1,6 @@
 import { useState } from "react";
 import BlogData from "./BlogData";
+import PropTypes from "prop-types";
 
 const ShowButton = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
@@ -36,6 +37,13 @@ const Blog = ({ blog, addLike, handleDelete, user }) => {
       <div>{deleteButtonToShow}</div>
     </div>
   );
+};
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  addLike: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 export default Blog;
