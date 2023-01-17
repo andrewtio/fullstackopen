@@ -26,3 +26,7 @@
   padding-left: 2px;
   margin-bottom: 5px;
 }
+
+.delete {
+  background: blue;
+}

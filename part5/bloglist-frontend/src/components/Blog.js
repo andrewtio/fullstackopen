@@ -1,8 +1,14 @@
 import { useState } from "react";
 import BlogData from "./BlogData";
 
-const Button = ({ handleClick, text }) => (
+const ShowButton = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
+);
+
+const DeleteButton = ({ handleClick, text }) => (
+  <button onClick={handleClick} className="delete">
+    {text}
+  </button>
 );
 
 const Blog = ({ blog, addLike, handleDelete, user }) => {
@@ -12,11 +18,9 @@ const Blog = ({ blog, addLike, handleDelete, user }) => {
   ) : (
     ""
   );
-  console.log("blogBlog", blog.user.name);
-  console.log("userBlog", user.name);
   const deleteButtonToShow =
     blog.user.name === user.name ? (
-      <Button handleClick={handleDelete} text="delete" />
+      <DeleteButton handleClick={handleDelete} text="delete" />
     ) : (
       ""
     );
@@ -24,7 +28,7 @@ const Blog = ({ blog, addLike, handleDelete, user }) => {
   return (
     <div className="blog">
       {blog.title} {blog.author}
-      <Button
+      <ShowButton
         handleClick={() => setShow(!show)}
         text={show ? "hide" : "show"}
       />
