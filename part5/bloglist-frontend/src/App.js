@@ -66,8 +66,27 @@ const App = () => {
       setTimeout(() => {
         setMessage(null);
       }, 5000);
-      // window.location.reload();
+      window.location.reload();
     });
+  };
+
+  const handleDelete = (id) => {
+    if (
+      window.confirm(
+        `Remove blog '${blogs.find((blog) => blog.id === id).title}' by '${
+          blogs.find((blog) => blog.id === id).author
+        }'?`
+      )
+    ) {
+      blogService.deleteBlog(id);
+      setBlogs(blogs.filter((blog) => blog.id !== id));
+      setMessage(`Blog has been deleted`);
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+    } else {
+      alert("Do nothing");
+    }
   };
 
   const handleLogin = async (event) => {
@@ -163,7 +182,12 @@ const App = () => {
         <BlogForm createBlog={addBlog} />
       </Togglable>
       {blogsSortedByLikes.map((blog) => (
-        <Blog key={blog.id} blog={blog} addLike={() => addLike(blog.id)} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          addLike={() => addLike(blog.id)}
+          handleDelete={() => handleDelete(blog.id)}
+        />
       ))}
     </div>
   );

@@ -5,7 +5,7 @@ const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
 
-const Blog = ({ blog, addLike }) => {
+const Blog = ({ blog, addLike, handleDelete }) => {
   const [show, setShow] = useState(false);
   const blogDetailToShow = show ? (
     <BlogData blog={blog} addLike={addLike} />
@@ -21,6 +21,7 @@ const Blog = ({ blog, addLike }) => {
         text={show ? "hide" : "show"}
       />
       <div>{blogDetailToShow}</div>
+      <Button handleClick={handleDelete} text="delete" />
     </div>
   );
 };
