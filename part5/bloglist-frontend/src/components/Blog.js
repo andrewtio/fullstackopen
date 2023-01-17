@@ -5,13 +5,21 @@ const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
 
-const Blog = ({ blog, addLike, handleDelete }) => {
+const Blog = ({ blog, addLike, handleDelete, user }) => {
   const [show, setShow] = useState(false);
   const blogDetailToShow = show ? (
     <BlogData blog={blog} addLike={addLike} />
   ) : (
     ""
   );
+  console.log("blogBlog", blog.user.name);
+  console.log("userBlog", user.name);
+  const deleteButtonToShow =
+    blog.user.name === user.name ? (
+      <Button handleClick={handleDelete} text="delete" />
+    ) : (
+      ""
+    );
 
   return (
     <div className="blog">
@@ -21,7 +29,7 @@ const Blog = ({ blog, addLike, handleDelete }) => {
         text={show ? "hide" : "show"}
       />
       <div>{blogDetailToShow}</div>
-      <Button handleClick={handleDelete} text="delete" />
+      <div>{deleteButtonToShow}</div>
     </div>
   );
 };
