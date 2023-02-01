@@ -6,6 +6,8 @@ import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Togglable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import LoginForm from "./components/LoginForm";
+import LogoutForm from "./components/LogoutForm";
 import "./index.css";
 
 const App = () => {
@@ -80,7 +82,7 @@ const App = () => {
     ) {
       blogService.deleteBlog(id);
       setBlogs(blogs.filter((blog) => blog.id !== id));
-      setMessage(`Blog has been deleted`);
+      setMessage("Blog has been deleted");
       setTimeout(() => {
         setMessage(null);
       }, 5000);
@@ -124,49 +126,18 @@ const App = () => {
     }
   };
 
-  const loginForm = () => (
-    <div>
-      <h2>Log in into application</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          Username
-          <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          Password
-          <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-    </div>
-  );
-
-  const logoutForm = () => (
-    <button
-      onClick={() => {
-        handleLogout();
-      }}
-    >
-      Logout
-    </button>
-  );
-
   if (user === null) {
     return (
       <div>
         <h1>Blogs</h1>
         <ErrorMessage message={errorMessage} />
-        {loginForm()}
+        <LoginForm
+          handleLogin={handleLogin}
+          username={username}
+          password={password}
+          setPassword={setPassword}
+          setUsername={setUsername}
+        />
       </div>
     );
   }
@@ -176,7 +147,7 @@ const App = () => {
       <h2>blogs</h2>
       <Notification message={message} />
       <p>
-        {user.name} logged-in {logoutForm()}
+        {user.name} logged-in <LogoutForm handleLogout={handleLogout} />
       </p>
       <Togglable buttonLabel="New Blog" ref={blogFormRef}>
         <BlogForm createBlog={addBlog} />
