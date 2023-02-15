@@ -68,3 +68,43 @@ test("blog's URL & number of likes should be shown when the button controlling t
   expect(elementURL).toBeDefined();
   expect(elementLike).toBeDefined();
 });
+
+test("if the like button is clicked twice, the event handler the component received as props shoul be called twice", async () => {
+  const blog = {
+    user: {
+      name: "root",
+    },
+    title: "ZenFein",
+    author: "Andrewtio",
+    url: "www.zenfein.com",
+    likes: 5,
+    id: "630cbb6b7fa33829d343e1e6",
+  };
+  const userLogin = {
+    name: "root",
+  };
+
+  const ShowButton = ({ handleClick, text }) => (
+    <button onClick={handleClick}>{text}</button>
+  );
+
+  const mockHandlerShow = jest.fn();
+  const mockHandlerLike = jest.fn();
+
+  render(
+    <>
+      <Blog blog={blog} user={userLogin} addLike={mockHandlerLike} />
+      <ShowButton handleClick={mockHandlerShow} />
+    </>
+  );
+
+  const user = userEvent.setup();
+  const buttonShow = screen.getByText("show");
+  await user.click(buttonShow);
+
+  const buttonLike = screen.getByText("like");
+  await user.click(buttonLike);
+  await user.click(buttonLike);
+
+  expect(mockHandlerLike.mock.calls).toHaveLength(2);
+});
