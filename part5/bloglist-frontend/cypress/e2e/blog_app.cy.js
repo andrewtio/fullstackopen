@@ -76,5 +76,23 @@ describe("Blog app", function () {
       cy.get(".blog").contains("show").click();
       cy.get(".blog").should("contain", "Likes: 1").click();
     });
+
+    it("A user who created a blog can delete it.", function () {
+      cy.get(".blog").contains("show").click();
+
+      cy.get(".blog").should("contain", "Likes: 0").click();
+
+      cy.get(".blog").contains("like").click();
+      cy.get(".blog").contains("show").click();
+      cy.get(".blog").should("contain", "Likes: 1").click();
+
+      cy.get(".blog").contains("delete").click();
+      cy.get(".message")
+        .should("contain", "Blog has been deleted")
+        .and("have.css", "color", "rgb(0, 128, 0)")
+        .and("have.css", "border-style", "solid");
+
+      cy.contains("kanzlei muditha").should("not.exist");
+    });
   });
 });
