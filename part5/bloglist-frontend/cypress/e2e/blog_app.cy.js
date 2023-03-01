@@ -57,4 +57,24 @@ describe("Blog app", function () {
       cy.get(".blog").should("contain", "kanzlei muditha");
     });
   });
+
+  describe("A Blog Exist", function () {
+    this.beforeEach(function () {
+      cy.login({ username: "zenfein", password: "zenfein" });
+      cy.createBlog({
+        title: "first title",
+        author: "first author",
+        url: "first url",
+      });
+    });
+
+    it("A blog can be liked", function () {
+      cy.get(".blog").contains("show").click();
+      cy.get(".blog").should("contain", "Likes: 0").click();
+
+      cy.get(".blog").contains("like").click();
+      cy.get(".blog").contains("show").click();
+      cy.get(".blog").should("contain", "Likes: 1").click();
+    });
+  });
 });
