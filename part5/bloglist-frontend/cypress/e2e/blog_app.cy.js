@@ -25,7 +25,7 @@ describe("Blog app", function () {
     });
 
     it("fails with wrong credentials", function () {
-      cy.contains("Login").click();
+      cy.contains("Login").should("exist");
       cy.get("#username").type("zenfeinn");
       cy.get("#password").type("zenfeinn");
       cy.get("#login-button").click();
@@ -34,6 +34,27 @@ describe("Blog app", function () {
         .should("contain", "Wrong Credentials")
         .and("have.css", "color", "rgb(255, 0, 0)")
         .and("have.css", "border-style", "solid");
+    });
+  });
+
+  describe("When logged in", function () {
+    beforeEach(function () {
+      cy.login({ username: "zenfein", password: "zenfein" });
+    });
+
+    it("A blog can be created", function () {
+      cy.contains("New Blog").click();
+      cy.get("#title").type("kanzlei");
+      cy.get("#author").type("muditha");
+      cy.get("#url").type("www.ditha.com");
+      cy.get("#submit-button").click();
+
+      cy.get(".message")
+        .should("contain", "A new blog kanzlei by muditha has been added")
+        .and("have.css", "color", "rgb(0, 128, 0)")
+        .and("have.css", "border-style", "solid");
+
+      cy.get(".blog").should("contain", "kanzlei muditha");
     });
   });
 });
