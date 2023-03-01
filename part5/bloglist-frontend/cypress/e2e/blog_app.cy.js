@@ -108,4 +108,34 @@ describe("Blog app", function () {
       cy.get(".blog").contains("delete").should("not.exist");
     });
   });
+
+  describe("Some Blogs Exist", function () {
+    this.beforeEach(function () {
+      cy.login({ username: "zenfein", password: "zenfein" });
+      cy.createBlog({
+        title: "first title",
+        author: "first author",
+        url: "first url",
+        likes: 10,
+      });
+      cy.createBlog({
+        title: "second title",
+        author: "second author",
+        url: "second url",
+        likes: 20,
+      });
+      cy.createBlog({
+        title: "third title",
+        author: "third author",
+        url: "third url",
+        likes: 30,
+      });
+    });
+
+    it("blogs are ordered according to likes with the blog with the most likes being first.", function () {
+      cy.get(".blog").eq(0).should("contain", "third title third author");
+      cy.get(".blog").eq(1).should("contain", "second title second author");
+      cy.get(".blog").eq(2).should("contain", "first title first author");
+    });
+  });
 });
