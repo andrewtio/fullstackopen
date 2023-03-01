@@ -94,5 +94,18 @@ describe("Blog app", function () {
 
       cy.contains("kanzlei muditha").should("not.exist");
     });
+
+    it("Other users but the creator do not see the delete button.", function () {
+      const user = {
+        name: "ditha",
+        username: "kanzlei",
+        password: "kanzlei",
+      };
+      cy.request("POST", `${Cypress.env("BACKEND")}/users`, user);
+      cy.visit("http://localhost:3000");
+
+      cy.login({ username: "kanzlei", password: "kanzlei" });
+      cy.get(".blog").contains("delete").should("not.exist");
+    });
   });
 });
