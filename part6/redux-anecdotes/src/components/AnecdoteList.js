@@ -18,15 +18,18 @@ const Anecdotes = () => {
   const anecdotes = useSelector((state) => state);
 
   return (
-    <ul>
-      {anecdotes.map((anecdote) => (
-        <Anecdote
-          key={anecdote.id}
-          anecdote={anecdote}
-          handleClick={() => dispatch(addVote(anecdote.id))}
-        />
-      ))}
-    </ul>
+    <>
+      <h2>Anecdotes</h2>
+      <ul>
+        {anecdotes.map((anecdote) => (
+          <Anecdote
+            key={anecdote.id}
+            anecdote={anecdote}
+            handleClick={() => dispatch(addVote(anecdote.id))}
+          />
+        ))}
+      </ul>
+    </>
   );
 };
 
