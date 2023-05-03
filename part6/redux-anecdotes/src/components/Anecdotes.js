@@ -3,11 +3,11 @@ import { addVote } from "../reducers/anecdoteReducer";
 
 const Anecdote = ({ anecdote, handleClick }) => {
   return (
-    <li onClick={handleClick}>
+    <li>
       <div>{anecdote.content}</div>
       <div>
         has {anecdote.votes}
-        <button onClick={() => addVote(anecdote.id)}>vote</button>
+        <button onClick={handleClick}>vote</button>
       </div>
     </li>
   );
