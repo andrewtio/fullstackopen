@@ -1,17 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createStore, combineReducers } from "redux";
+import store from "./store";
 import { Provider } from "react-redux";
 import App from "./App";
-import anecdoteReducer, { createAnecdote } from "./reducers/anecdoteReducer";
-import filterReducer, { filterChange } from "./reducers/filterReducer";
+import { createAnecdote } from "./reducers/anecdoteReducer";
+import { filterChange } from "./reducers/filterReducer";
 
-const reducer = combineReducers({
-  anecdotes: anecdoteReducer,
-  filter: filterReducer,
-});
-
-const store = createStore(reducer);
 store.subscribe(() => console.log(store.getState()));
 store.dispatch(filterChange(""));
 store.dispatch(createAnecdote("Hello Anecdotes"));

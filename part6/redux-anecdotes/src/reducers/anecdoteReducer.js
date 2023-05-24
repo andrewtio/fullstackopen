@@ -1,3 +1,5 @@
+import { createSlice } from "@reduxjs/toolkit";
+
 const initialState = [
   {
     content: "But it works in my machine...",
@@ -52,26 +54,56 @@ const anecdoteReducer = (state = initialState, action) => {
   }
 };
 
+const anecdoteSlice = createSlice({
+  name: "anecdotes",
+  initialState,
+  reducers: {
+    createAnecdote(state, action) {
+      const content = action.payload;
+      state.push({
+        content,
+        votes: 0,
+        id: generateId(),
+      });
+    },
+    addVote(state, action) {
+      console.log("state", JSON.parse(JSON.stringify(state)));
+      console.log("action", action);
+      const id = action.payload;
+      const anecdoteToChange = state.find((n) => n.id === id);
+      const changedAnecdote = {
+        ...anecdoteToChange,
+        votes: anecdoteToChange.votes + 1,
+      };
+      return state
+        .sort((a, b) => b.votes - a.votes)
+        .map((anecdote) => (anecdote.id !== id ? anecdote : changedAnecdote));
+    },
+  },
+});
+
 const generateId = () => Number((Math.random() * 1000000).toFixed(0));
 
-export const addVote = (id) => {
-  return {
-    type: "ADD_VOTE",
-    payload: {
-      id,
-    },
-  };
-};
+// export const addVote = (id) => {
+//   return {
+//     type: "ADD_VOTE",
+//     payload: {
+//       id,
+//     },
+//   };
+// };
 
-export const createAnecdote = (content) => {
-  return {
-    type: "NEW_ANECDOTE",
-    payload: {
-      content,
-      votes: 0,
-      id: generateId(),
-    },
-  };
-};
+// export const createAnecdote = (content) => {
+//   return {
+//     type: "NEW_ANECDOTE",
+//     payload: {
+//       content,
+//       votes: 0,
+//       id: generateId(),
+//     },
+//   };
+// };
 
-export default anecdoteReducer;
+export const { createAnecdote, addVote } = anecdoteSlice.actions;
+export default anecdoteSlice.reducer;
+// export default anecdoteReducer;
