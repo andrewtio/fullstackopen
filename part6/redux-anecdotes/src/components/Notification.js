@@ -7,7 +7,11 @@ const Notification = () => {
     padding: 10,
     borderWidth: 1,
   };
-  return <div style={style}>{notification}</div>;
+  return (
+    <div style={notification !== "" ? style : { display: "none" }}>
+      You create / vote "{notification}"
+    </div>
+  );
 };
 
 export default Notification;
