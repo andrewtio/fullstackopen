@@ -39,8 +39,8 @@ const Anecdotes = () => {
               dispatch(addVote(anecdote.id));
               dispatch(setNotification(anecdote.content));
               setTimeout(() => {
-                dispatch(clearNotification(""));
-              }, 5000);
+                dispatch(clearNotification());
+              }, 1000);
             }}
           />
         ))}

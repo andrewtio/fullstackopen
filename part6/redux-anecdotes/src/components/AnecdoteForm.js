@@ -16,8 +16,8 @@ const NewAnecdote = () => {
     dispatch(createAnecdote(content));
     dispatch(setNotification(content));
     setTimeout(() => {
-      dispatch(clearNotification(""));
-    }, 5000);
+      dispatch(clearNotification());
+    }, 1000);
   };
 
   return (
