@@ -3,8 +3,13 @@ import ReactDOM from "react-dom/client";
 import store from "./store";
 import { Provider } from "react-redux";
 import App from "./App";
-import { createAnecdote } from "./reducers/anecdoteReducer";
+import { createAnecdote, setAnecdotes } from "./reducers/anecdoteReducer";
 import { filterChange } from "./reducers/filterReducer";
+import anecdoteService from "./services/anecdotes";
+
+anecdoteService
+  .getAll()
+  .then((anecdotes) => store.dispatch(setAnecdotes(anecdotes)));
 
 store.subscribe(() => console.log(store.getState()));
 store.dispatch(filterChange(""));
