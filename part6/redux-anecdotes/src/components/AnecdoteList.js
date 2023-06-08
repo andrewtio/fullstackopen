@@ -40,7 +40,7 @@ const Anecdotes = () => {
               dispatch(setNotification(anecdote.content));
               setTimeout(() => {
                 dispatch(clearNotification());
-              }, 1000);
+              }, 5000);
             }}
           />
         ))}
