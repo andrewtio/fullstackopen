@@ -1,46 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [
-  {
-    content: "But it works in my machine...",
-    votes: 8,
-    id: 1,
-  },
-  {
-    content: "If it hurts, do it more often",
-    votes: 2,
-    id: 2,
-  },
-  {
-    content:
-      "Any fool can write code that a computer can understand, Good programmers write code that humans can understand",
-    votes: 1,
-    id: 3,
-  },
-  {
-    content:
-      "The first 90 percent of the code accounts for the first 90 percent of the development time... The remaining 10 percent of the code account time.",
-    votes: 1,
-    id: 4,
-  },
-  {
-    content: "Adding manpower to a late software project makes it later!",
-    votes: 0,
-    id: 5,
-  },
-];
-
 const anecdoteSlice = createSlice({
   name: "anecdotes",
   initialState: [],
   reducers: {
     createAnecdote(state, action) {
-      const content = action.payload;
-      state.push({
-        content,
-        votes: 0,
-        id: generateId(),
-      });
+      state.push(action.payload);
     },
     addVote(state, action) {
       console.log("state", JSON.parse(JSON.stringify(state)));
@@ -63,8 +28,6 @@ const anecdoteSlice = createSlice({
     },
   },
 });
-
-const generateId = () => Number((Math.random() * 1000000).toFixed(0));
 
 export const { createAnecdote, addVote, appendAnecdote, setAnecdotes } =
   anecdoteSlice.actions;

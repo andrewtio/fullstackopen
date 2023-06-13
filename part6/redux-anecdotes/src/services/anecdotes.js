@@ -7,4 +7,13 @@ const getAll = async () => {
   return response.data;
 };
 
-export default { getAll };
+const createNew = async (content) => {
+  const object = { content, votes: 0, id: generateId() };
+  const response = await axios.post(baseUrl, object);
+  return response.data;
+};
+
+const generateId = () => Number((Math.random() * 1000000).toFixed(0));
+
+// eslint-disable-next-line import/no-anonymous-default-export
+export default { getAll, createNew };
