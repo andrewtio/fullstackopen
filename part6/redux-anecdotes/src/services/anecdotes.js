@@ -13,7 +13,16 @@ const createNew = async (content) => {
   return response.data;
 };
 
+const updateVote = async (content) => {
+  console.log("content", content);
+  const object = { ...content, votes: content.votes + 1 };
+  console.log("object", object);
+  const response = await axios.put(`${baseUrl}/${content.id}`, object);
+  console.log("response", response);
+  return response.data;
+};
+
 const generateId = () => Number((Math.random() * 1000000).toFixed(0));
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, createNew };
+export default { getAll, createNew, updateVote };
