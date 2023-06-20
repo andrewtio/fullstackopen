@@ -9,7 +9,7 @@ const Notification = () => {
   };
   return (
     <div style={notification !== "" ? style : { display: "none" }}>
-      You create / vote "{notification}"
+      {notification}"
     </div>
   );
 };

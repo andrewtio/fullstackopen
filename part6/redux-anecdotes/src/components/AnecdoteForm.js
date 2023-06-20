@@ -15,7 +15,7 @@ const NewAnecdote = () => {
     event.target.anecdote.value = "";
 
     dispatch(createAnecdote(content));
-    dispatch(setNotification(content));
+    dispatch(setNotification(`You created '${content}'`));
     setTimeout(() => {
       dispatch(clearNotification());
     }, 5000);
