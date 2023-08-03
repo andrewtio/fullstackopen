@@ -5,9 +5,10 @@ import {
   Route,
   Link,
   useParams,
+  useNavigate,
 } from "react-router-dom";
 
-const Menu = ({ anecdotes }) => {
+const Menu = ({ anecdotes, addNew, notificationWithTimeout, notification }) => {
   const padding = {
     paddingRight: 5,
   };
@@ -26,12 +27,22 @@ const Menu = ({ anecdotes }) => {
           </Link>
         </div>
 
+        {notification}
+
         <Routes>
           <Route
             path="/anecdotes/:id"
             element={<Anecdote anecdotes={anecdotes} />}
           />
-          <Route path="/create" element={<CreateNew />} />
+          <Route
+            path="/create"
+            element={
+              <CreateNew
+                addNew={addNew}
+                notificationWithTimeout={notificationWithTimeout}
+              />
+            }
+          />
           <Route path="/about" element={<About />} />
           <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
         </Routes>
@@ -101,19 +112,22 @@ const Footer = () => (
   </div>
 );
 
-const CreateNew = (props) => {
+const CreateNew = ({ addNew, notificationWithTimeout }) => {
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
   const [info, setInfo] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.addNew({
+    addNew({
       content,
       author,
       info,
       votes: 0,
     });
+    notificationWithTimeout(`a new anecdote ${content} created!`);
+    navigate("/");
   };
 
   return (
@@ -144,7 +158,7 @@ const CreateNew = (props) => {
             onChange={(e) => setInfo(e.target.value)}
           />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
       </form>
     </div>
   );
@@ -170,6 +184,11 @@ const App = () => {
 
   const [notification, setNotification] = useState("");
 
+  const notificationWithTimeout = (message) => {
+    setNotification(message);
+    setTimeout(() => setNotification(null), 5000);
+  };
+
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000);
     setAnecdotes(anecdotes.concat(anecdote));
@@ -191,7 +210,12 @@ const App = () => {
   return (
     <div>
       <h1>Software anecdotes</h1>
-      <Menu anecdotes={anecdotes} />
+      <Menu
+        notification={notification}
+        anecdotes={anecdotes}
+        addNew={addNew}
+        notificationWithTimeout={notificationWithTimeout}
+      />
       <Footer />
     </div>
   );
