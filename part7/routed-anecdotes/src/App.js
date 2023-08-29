@@ -114,9 +114,6 @@ const Footer = () => (
 );
 
 const CreateNew = ({ addNew, notificationWithTimeout }) => {
-  // const [content, setContent] = useState("");
-  // const [author, setAuthor] = useState("");
-  // const [info, setInfo] = useState("");
 
   const content = useField("text");
   const author = useField("text");
@@ -131,9 +128,15 @@ const CreateNew = ({ addNew, notificationWithTimeout }) => {
       "info": info.value,
       votes: 0,
     });
-    notificationWithTimeout(`a new anecdote ${content} created!`);
+    notificationWithTimeout(`a new anecdote "${content.value}" created!`);
     navigate("/");
   };
+
+  const reset = () => {
+    content.reset()
+    author.reset()
+    info.reset()
+  }
 
   return (
     <div>
@@ -142,31 +145,23 @@ const CreateNew = ({ addNew, notificationWithTimeout }) => {
         <div>
           content
           <input
-            type={content.type}
-            value={content.value}
-            onChange={content.onChange}
-            // {...content}
+            {...content}
           />
         </div>
         <div>
           author
           <input
-            type={author.type}
-            value={author.value}
-            onChange={author.onChange}
-            // {...author}
+            {...author}
           />
         </div>
         <div>
           url for more info
           <input
-            type={info.type}
-            value={info.value}
-            onChange={info.onChange}
-            // {...info}
+            {...info}
           />
         </div>
         <button type="submit">create</button>
+        <button type="button" onClick={reset}>reset</button>
       </form>
     </div>
   );
