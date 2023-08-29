@@ -114,7 +114,6 @@ const Footer = () => (
 );
 
 const CreateNew = ({ addNew, notificationWithTimeout }) => {
-
   const content = useField("text");
   const author = useField("text");
   const info = useField("text");
@@ -123,9 +122,9 @@ const CreateNew = ({ addNew, notificationWithTimeout }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     addNew({
-      "content": content.value,
-      "author": author.value,
-      "info": info.value,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0,
     });
     notificationWithTimeout(`a new anecdote "${content.value}" created!`);
@@ -133,10 +132,10 @@ const CreateNew = ({ addNew, notificationWithTimeout }) => {
   };
 
   const reset = () => {
-    content.reset()
-    author.reset()
-    info.reset()
-  }
+    content.reset();
+    author.reset();
+    info.reset();
+  };
 
   return (
     <div>
@@ -144,24 +143,20 @@ const CreateNew = ({ addNew, notificationWithTimeout }) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input
-            {...content}
-          />
+          <input {...content.field} />
         </div>
         <div>
           author
-          <input
-            {...author}
-          />
+          <input {...author.field} />
         </div>
         <div>
           url for more info
-          <input
-            {...info}
-          />
+          <input {...info.field} />
         </div>
         <button type="submit">create</button>
-        <button type="button" onClick={reset}>reset</button>
+        <button type="reset" onClick={reset}>
+          reset
+        </button>
       </form>
     </div>
   );
