@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useField } from "./hooks";
 import {
   BrowserRouter as Router,
   Routes,
@@ -113,17 +114,21 @@ const Footer = () => (
 );
 
 const CreateNew = ({ addNew, notificationWithTimeout }) => {
-  const [content, setContent] = useState("");
-  const [author, setAuthor] = useState("");
-  const [info, setInfo] = useState("");
+  // const [content, setContent] = useState("");
+  // const [author, setAuthor] = useState("");
+  // const [info, setInfo] = useState("");
+
+  const content = useField("text");
+  const author = useField("text");
+  const info = useField("text");
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     addNew({
-      content,
-      author,
-      info,
+      "content": content.value,
+      "author": author.value,
+      "info": info.value,
       votes: 0,
     });
     notificationWithTimeout(`a new anecdote ${content} created!`);
@@ -137,25 +142,28 @@ const CreateNew = ({ addNew, notificationWithTimeout }) => {
         <div>
           content
           <input
-            name="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            type={content.type}
+            value={content.value}
+            onChange={content.onChange}
+            // {...content}
           />
         </div>
         <div>
           author
           <input
-            name="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
+            type={author.type}
+            value={author.value}
+            onChange={author.onChange}
+            // {...author}
           />
         </div>
         <div>
           url for more info
           <input
-            name="info"
-            value={info}
-            onChange={(e) => setInfo(e.target.value)}
+            type={info.type}
+            value={info.value}
+            onChange={info.onChange}
+            // {...info}
           />
         </div>
         <button type="submit">create</button>
