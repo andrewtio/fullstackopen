@@ -1,0 +1,32 @@
+.message {
+  color: green;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.error {
+  color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.blog {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  padding-top: 10px;
+  padding-left: 2px;
+  margin-bottom: 5px;
+}
+
+.delete {
+  background: blue;
+}
