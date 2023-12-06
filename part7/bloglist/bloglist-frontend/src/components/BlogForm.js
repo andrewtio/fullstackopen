@@ -1,9 +1,16 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  clearNotificationBlog,
+  setNotificationBlog,
+} from "../reducers/notificationReducer";
 
 const BlogForm = ({ createBlog }) => {
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [newUrl, setNewUrl] = useState("");
+
+  const dispatch = useDispatch();
 
   const handleTitleChange = (event) => {
     setNewTitle(event.target.value);
@@ -24,6 +31,14 @@ const BlogForm = ({ createBlog }) => {
       author: newAuthor,
       url: newUrl,
     });
+    dispatch(
+      setNotificationBlog(
+        `A new blog ${newTitle} by ${newAuthor} has been added`
+      )
+    );
+    setTimeout(() => {
+      dispatch(clearNotificationBlog());
+    }, 5000);
     setNewAuthor("");
     setNewTitle("");
     setNewUrl("");

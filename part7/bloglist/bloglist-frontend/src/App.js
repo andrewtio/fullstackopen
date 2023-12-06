@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import Blog from "./components/Blog";
-import Notification from "./components/Notification";
 import ErrorMessage from "./components/ErrorMessage";
 import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Togglable";
@@ -8,17 +8,21 @@ import blogService from "./services/blogs";
 import loginService from "./services/login";
 import LoginForm from "./components/LoginForm";
 import LogoutForm from "./components/LogoutForm";
+import Notification from "./components/Notification";
 import "./index.css";
+import {
+  setNotificationBlog,
+  clearNotificationBlog,
+} from "./reducers/notificationReducer";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [message, setMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const blogFormRef = useRef();
-
+  const dispatch = useDispatch();
   useEffect(() => {
     if (user) {
       blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -42,12 +46,6 @@ const App = () => {
     blogFormRef.current.toggleVisibility();
     blogService.create(blogObject).then((returnedBlog) => {
       setBlogs(blogs.concat(returnedBlog));
-      setMessage(
-        `A new blog ${returnedBlog.title} by ${returnedBlog.author} has been added`
-      );
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000);
     });
   };
 
@@ -62,11 +60,13 @@ const App = () => {
     blogService.update(id, changedBlog).then((returnedBlog) => {
       console.log("returnedBlog", returnedBlog);
       setBlogs(blogs.map((blog) => (blog.id !== id ? blog : returnedBlog)));
-      setMessage(
-        `1 like on blog ${returnedBlog.title} by ${returnedBlog.author} has been added`
+      dispatch(
+        setNotificationBlog(
+          `1 like on blog ${returnedBlog.title} by ${returnedBlog.author} has been added`
+        )
       );
       setTimeout(() => {
-        setMessage(null);
+        dispatch(clearNotificationBlog());
       }, 5000);
       window.location.reload();
     });
@@ -82,9 +82,9 @@ const App = () => {
     ) {
       blogService.deleteBlog(id);
       setBlogs(blogs.filter((blog) => blog.id !== id));
-      setMessage("Blog has been deleted");
+      dispatch(setNotificationBlog("Blog has been deleted"));
       setTimeout(() => {
-        setMessage(null);
+        dispatch(clearNotificationBlog());
       }, 5000);
     } else {
       alert("Do nothing");
@@ -119,9 +119,9 @@ const App = () => {
       window.localStorage.clear();
       window.location.reload();
     } catch (exception) {
-      setMessage("Cannot Logout");
+      dispatch(setNotificationBlog("Cannot logout"));
       setTimeout(() => {
-        setMessage(null);
+        dispatch(clearNotificationBlog());
       }, 5000);
     }
   };
@@ -145,7 +145,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification message={message} />
+      <Notification />
       <p>
         {user.name} logged-in <LogoutForm handleLogout={handleLogout} />
       </p>
