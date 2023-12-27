@@ -1,11 +1,9 @@
 import { useState } from "react";
+import { connect } from "react-redux";
 import { useDispatch } from "react-redux";
-import {
-  clearNotificationBlog,
-  setNotificationBlog,
-} from "../reducers/notificationReducer";
+import { createBlog } from "../reducers/blogReducer";
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = (props) => {
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [newUrl, setNewUrl] = useState("");
@@ -26,19 +24,12 @@ const BlogForm = ({ createBlog }) => {
 
   const addBlog = (event) => {
     event.preventDefault();
-    createBlog({
+    const content = {
       title: newTitle,
       author: newAuthor,
       url: newUrl,
-    });
-    dispatch(
-      setNotificationBlog(
-        `A new blog ${newTitle} by ${newAuthor} has been added`
-      )
-    );
-    setTimeout(() => {
-      dispatch(clearNotificationBlog());
-    }, 5000);
+    };
+    dispatch(createBlog(props.user, content));
     setNewAuthor("");
     setNewTitle("");
     setNewUrl("");
@@ -83,4 +74,10 @@ const BlogForm = ({ createBlog }) => {
   );
 };
 
-export default BlogForm;
+const mapStateToProps = (state) => {
+  return {
+    blogs: state.blogs,
+  };
+};
+
+export default connect(mapStateToProps)(BlogForm);

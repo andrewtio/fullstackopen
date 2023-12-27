@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import Blog from "./components/Blog";
 import ErrorMessage from "./components/ErrorMessage";
 import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Togglable";
@@ -14,20 +13,17 @@ import {
   setNotificationBlog,
   clearNotificationBlog,
 } from "./reducers/notificationReducer";
+import { initializeBlog } from "./reducers/blogReducer";
+import BlogList from "./components/BlogList";
+// import { loginUserLocalStorage } from "./reducers/loginReducer";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const blogFormRef = useRef();
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (user) {
-      blogService.getAll().then((blogs) => setBlogs(blogs));
-    }
-  }, [user]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
@@ -36,60 +32,14 @@ const App = () => {
       setUser(user);
       blogService.setToken(user.token);
     }
+    // dispatch(loginUserLocalStorage());
   }, []);
 
-  const blogsSortedByLikes = blogs.sort(function (a, b) {
-    return b.likes - a.likes;
-  });
-
-  const addBlog = (blogObject) => {
-    blogFormRef.current.toggleVisibility();
-    blogService.create(blogObject).then((returnedBlog) => {
-      setBlogs(blogs.concat(returnedBlog));
-    });
-  };
-
-  const addLike = (id) => {
-    blogFormRef.current.toggleVisibility();
-    console.log("id", id);
-    const blog = blogs.find((n) => n.id === id);
-    console.log("blog", blog);
-    const changedBlog = { blog, likes: blog.likes + 1 };
-    console.log("changedBlog", changedBlog);
-
-    blogService.update(id, changedBlog).then((returnedBlog) => {
-      console.log("returnedBlog", returnedBlog);
-      setBlogs(blogs.map((blog) => (blog.id !== id ? blog : returnedBlog)));
-      dispatch(
-        setNotificationBlog(
-          `1 like on blog ${returnedBlog.title} by ${returnedBlog.author} has been added`
-        )
-      );
-      setTimeout(() => {
-        dispatch(clearNotificationBlog());
-      }, 5000);
-      window.location.reload();
-    });
-  };
-
-  const handleDelete = (id) => {
-    if (
-      window.confirm(
-        `Remove blog '${blogs.find((blog) => blog.id === id).title}' by '${
-          blogs.find((blog) => blog.id === id).author
-        }'?`
-      )
-    ) {
-      blogService.deleteBlog(id);
-      setBlogs(blogs.filter((blog) => blog.id !== id));
-      dispatch(setNotificationBlog("Blog has been deleted"));
-      setTimeout(() => {
-        dispatch(clearNotificationBlog());
-      }, 5000);
-    } else {
-      alert("Do nothing");
+  useEffect(() => {
+    if (user) {
+      dispatch(initializeBlog());
     }
-  };
+  }, [user]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -150,17 +100,9 @@ const App = () => {
         {user.name} logged-in <LogoutForm handleLogout={handleLogout} />
       </p>
       <Togglable buttonLabel="New Blog" ref={blogFormRef}>
-        <BlogForm createBlog={addBlog} />
+        <BlogForm user={user} />
       </Togglable>
-      {blogsSortedByLikes.map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          addLike={() => addLike(blog.id)}
-          handleDelete={() => handleDelete(blog.id)}
-          user={user}
-        />
-      ))}
+      <BlogList user={user} />
     </div>
   );
 };

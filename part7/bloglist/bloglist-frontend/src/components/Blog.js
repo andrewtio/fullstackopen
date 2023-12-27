@@ -19,6 +19,8 @@ const Blog = ({ blog, addLike, handleDelete, user }) => {
   ) : (
     ""
   );
+  console.log(blog.user.name, "blog.user.name");
+  console.log(user.name, "user.name");
   const deleteButtonToShow =
     blog.user.name === user.name ? (
       <DeleteButton handleClick={handleDelete} text="delete" />
