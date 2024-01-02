@@ -15,7 +15,7 @@ import {
 } from "./reducers/notificationReducer";
 import { initializeBlog } from "./reducers/blogReducer";
 import BlogList from "./components/BlogList";
-// import { loginUserLocalStorage } from "./reducers/loginReducer";
+import { loginUserLocalStorage } from "./reducers/loginReducer";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -26,13 +26,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
-    }
-    // dispatch(loginUserLocalStorage());
+    dispatch(loginUserLocalStorage());
   }, []);
 
   useEffect(() => {
